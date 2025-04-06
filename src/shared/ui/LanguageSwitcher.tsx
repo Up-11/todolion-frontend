@@ -1,29 +1,38 @@
 'use client'
 
 import { useTranslation } from 'react-i18next'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '../components/dropdown-menu'
+import { Button } from '../components/button'
+import { Languages } from 'lucide-react'
 
 export default function LanguageSwitcher() {
-	const { i18n } = useTranslation()
+	const { i18n, t } = useTranslation()
 
 	const changeLanguage = async (lang: 'en' | 'ru') => {
 		await i18n.changeLanguage(lang)
 	}
 
 	return (
-		<div className='mt-4 space-x-2'>
-			<button
-				onClick={() => changeLanguage('en')}
-				className='rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none'
-			>
-				EN
-			</button>
-
-			<button
-				onClick={() => changeLanguage('ru')}
-				className='rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none'
-			>
-				RU
-			</button>
-		</div>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant='outline' size='icon'>
+					<Languages className='absolute h-[1.2rem] w-[1.2rem]   transition-all' />
+					<span className='sr-only'>{t('profile.changeLanguage')}</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align='end'>
+				<DropdownMenuItem onClick={() => changeLanguage('ru')}>
+					Русский
+				</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => changeLanguage('en')}>
+					English
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	)
 }

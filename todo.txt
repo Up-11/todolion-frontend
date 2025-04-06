@@ -1,0 +1,6 @@
+[x] - routing 
+[x] - layout
+[] - protected Pages
+[] - auth
+[] - firebase
+[] - 404 rebuild
