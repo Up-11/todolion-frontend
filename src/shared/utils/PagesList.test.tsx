@@ -6,8 +6,6 @@ import { ROUTE_VALUES } from '../../config/routes'
 import { Popover, PopoverContent, PopoverTrigger } from '../components/popover'
 
 export const PagesListTest: React.FC = () => {
-	console.log(ROUTE_VALUES)
-
 	return (
 		<Popover>
 			<PopoverTrigger className='fixed bottom-0 right-0'>

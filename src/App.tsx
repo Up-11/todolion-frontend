@@ -7,6 +7,8 @@ import { FullscreenLoader } from './modules/Common/Loader/FullscreenLoader'
 import { Toaster } from './shared/components/sonner'
 import { TooltipProvider } from './shared/components/tooltip'
 import { AuthProvider } from './shared/providers/AuthProvider'
+import { GlobalLoaderProvider } from './shared/providers/GlobalLoaderProvider'
+import { NotesProvider } from './shared/providers/NotesProvider'
 import { SidebarProvider } from './shared/providers/SidebarProvider'
 import { ThemeProvider } from './shared/providers/ThemeProvider'
 import { PagesListTest } from './shared/utils/PagesList.test'
@@ -34,8 +36,12 @@ function App() {
 				<TooltipProvider>
 					<AuthProvider>
 						<SidebarProvider>
-							{isNavigating && <FullscreenLoader />}
-							<Outlet />
+							<GlobalLoaderProvider>
+								<NotesProvider>
+									{isNavigating && <FullscreenLoader />}
+									<Outlet />
+								</NotesProvider>
+							</GlobalLoaderProvider>
 						</SidebarProvider>
 					</AuthProvider>
 					<Toaster position='bottom-center' richColors />

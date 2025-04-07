@@ -1,4 +1,5 @@
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import { Checkbox } from '../../../shared/components/checkbox'
 import { Input } from '../../../shared/components/input'
@@ -15,6 +16,7 @@ export const ContentListItem: React.FC<ContentListItemProps> = ({
 	onUpdate,
 	onDelete
 }) => {
+	const { t } = useTranslation()
 	return (
 		<div className='flex items-center space-x-2'>
 			<Checkbox
@@ -33,6 +35,7 @@ export const ContentListItem: React.FC<ContentListItemProps> = ({
 					)}
 					value={item.title}
 					disabled={item.isDone}
+					placeholder={t('note.listItemPlaceholder')}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 						onUpdate({ ...item, title: e.target.value })
 					}}

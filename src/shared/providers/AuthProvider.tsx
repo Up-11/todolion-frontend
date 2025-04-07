@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				}))
 			}
 		})
-		console.log(state.user)
 
 		return () => unsubscribe()
 		// eslint-disable-next-line react-hooks/exhaustive-deps

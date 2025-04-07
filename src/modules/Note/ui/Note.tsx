@@ -9,6 +9,7 @@ import {
 	PopoverContent,
 	PopoverTrigger
 } from '../../../shared/components/popover'
+import { useNotes } from '../../../shared/hooks/useNotes'
 import { cn } from '../../../shared/lib/css'
 import { INote } from '../../../types/common'
 
@@ -17,15 +18,21 @@ import { EditNoteDialog } from './EditNoteDialog'
 export const Note: React.FC<{ note: INote }> = ({ note }) => {
 	const { t } = useTranslation()
 	const [isOpen, setIsOpen] = useState(false)
+	const { deleteNote, getNotes } = useNotes()
+
+	const onDelete = () => {
+		deleteNote(note.id)
+		getNotes()
+	}
 	return (
 		<div
 			className={cn(
-				'relative  group min-h-42 min-w-65 max-w-70 w-full bg-root transition-opacity rounded-3xl p-5  group',
+				'relative  group min-h-42 min-w-65 max-w-70 w-full flex flex-col bg-root transition-opacity rounded-3xl p-5  group',
 				isOpen ? 'opacity-0' : 'opacity-100'
 			)}
 		>
 			<EditNoteDialog isOpen={isOpen} setIsOpen={setIsOpen} note={note}>
-				<div>
+				<div className='flex-1'>
 					<h2 className='font-bold text-xl line-clamp-2 cursor-default '>
 						{note.title}
 					</h2>
@@ -74,7 +81,7 @@ export const Note: React.FC<{ note: INote }> = ({ note }) => {
 					/>
 				</PopoverTrigger>
 				<PopoverContent className='max-w-45 flex flex-col gap-2' align='start'>
-					<Button className='w-full' variant={'outline'}>
+					<Button onClick={onDelete} className='w-full' variant={'outline'}>
 						{t('note.delete')}
 					</Button>
 					<Button className='w-full' variant={'outline'}>
