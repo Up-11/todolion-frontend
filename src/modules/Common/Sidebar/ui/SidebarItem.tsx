@@ -15,7 +15,7 @@ export const SidebarItem: React.FC<ISideBarItem> = ({
 		<NavLink
 			to={link}
 			className={cn(
-				'flex items-center gap-1  px-6 py-4 rounded-3xl transition-colors cursor-pointer hover:bg-cyan-500/20',
+				'flex items-center py-4 gap-1 justify-center    rounded-3xl transition-colors cursor-pointer hover:bg-cyan-500/20',
 				isActive && 'bg-cyan-600/20'
 			)}
 		>

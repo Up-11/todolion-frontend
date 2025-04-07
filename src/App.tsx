@@ -38,7 +38,7 @@ function App() {
 							<Outlet />
 						</SidebarProvider>
 					</AuthProvider>
-					<Toaster />
+					<Toaster position='bottom-center' richColors />
 				</TooltipProvider>
 				<PagesListTest />
 			</I18nextProvider>

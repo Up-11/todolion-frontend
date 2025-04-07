@@ -10,3 +10,13 @@ export interface ISideBarItem {
 export interface PropsWithClassName {
 	className?: string
 }
+
+export interface INote {
+	id: string
+	title: string
+	isPinned: boolean
+	updatedAt: Date
+	isList: boolean
+	content?: string
+	contentList?: { title: string; isDone: boolean }[]
+}

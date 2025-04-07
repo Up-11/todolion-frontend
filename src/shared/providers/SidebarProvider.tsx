@@ -1,16 +1,27 @@
-import { createContext, PropsWithChildren, useState } from 'react'
+import { createContext, PropsWithChildren, useEffect, useState } from 'react'
 
 export const SidebarProviderContext = createContext({
 	toggleSidebar: () => {},
-	state: false
+	isExpanded: true
 })
 
 export function SidebarProvider({ children }: PropsWithChildren) {
-	const [state, setState] = useState(false)
+	const [state, setState] = useState(true)
+
+	const toggleSidebar = () => {
+		setState(!state)
+		localStorage.setItem('sidebar', JSON.stringify(!state))
+	}
+
+	useEffect(() => {
+		if (localStorage.getItem('sidebar')) {
+			setState(JSON.parse(localStorage.getItem('sidebar') as string))
+		}
+	}, [])
 
 	const value = {
-		toggleSidebar: () => setState(!state),
-		state
+		toggleSidebar,
+		isExpanded: state
 	}
 
 	return (
