@@ -1,5 +1,6 @@
 import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth'
 import { createContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
@@ -28,6 +29,7 @@ export const AuthProviderContext =
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const auth = getAuth()
 	const navigate = useNavigate()
+	const { t } = useTranslation()
 
 	const [state, setState] = useState<AuthProviderState>({
 		...initialState,
@@ -64,10 +66,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				error: null,
 				credentials: null
 			}))
-			toast.success('Выход из системы выполнен успешно!')
+			toast.success(t('auth.logout.success'))
 			navigate(ROUTES.AUTH.LOGIN)
 		} catch (error) {
-			toast.error(`Ошибка выхода: ${error}`)
+			toast.error(` ${error}`)
 			setState(prev => ({ ...prev, error: 'Ошибка выхода из системы' }))
 		}
 	}

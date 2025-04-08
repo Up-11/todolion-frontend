@@ -22,9 +22,17 @@
 		"listItemPlaceholder": "Item text...",
 		"delete": "Delete",
 		"copy": "Copy",
-		"updatedAt": "Updated at"
+		"updatedAt": "Updated at",
+		"titleRequired": "Title is required",
+		"contentRequired": "Content is required",
+		"updated": "Note updated",
+		"removed": "Note removed",
+		"created": "Note created"
 	},
 	"auth": {
+		"logout": {
+			"success": "Logout successful"
+		},
 		"email": {
 			"label": "Email",
 			"desc": "Your email address"
@@ -41,13 +49,15 @@
 			"title": "Login",
 			"btn": "Sign In",
 			"q": "Don't have an account?",
-			"link": "Register"
+			"link": "Register",
+			"success": "Login successful"
 		},
 		"register": {
 			"title": "Register",
 			"btn": "Sign Up",
 			"q": "Already have an account?",
-			"link": "Login"
+			"link": "Login",
+			"success": "Registration successful"
 		}
 	},
 	"theme": {

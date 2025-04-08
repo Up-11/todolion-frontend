@@ -47,7 +47,7 @@ export const RegisterPage: React.FC = () => {
 		createUserWithEmailAndPassword(auth, values.email, values.password)
 			.then(userCredential => {
 				setUser(userCredential.user)
-				toast.success(t('toast.register.success'), {})
+				toast.success(t('auth.register.success'), {})
 				navigate(ROUTES.INDEX)
 			})
 			.catch(error => {

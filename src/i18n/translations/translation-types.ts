@@ -23,8 +23,16 @@ export interface TranslationTypes {
 		delete: string
 		copy: string
 		updatedAt: string
+		titleRequired: string
+		contentRequired: string
+		updated: string
+		removed: string
+		created: string
 	}
 	auth: {
+		logout: {
+			success: string
+		}
 		email: {
 			label: string
 			desc: string
@@ -42,12 +50,14 @@ export interface TranslationTypes {
 			btn: string
 			q: string
 			link: string
+			success: string
 		}
 		register: {
 			title: string
 			btn: string
 			q: string
 			link: string
+			success: string
 		}
 	}
 	theme: {

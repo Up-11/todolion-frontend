@@ -43,7 +43,7 @@ export const LoginPage: React.FC = () => {
 		signInWithEmailAndPassword(auth, values.email, values.password)
 			.then(userCredential => {
 				setUser(userCredential.user)
-				toast.success(t('toast.login.success'))
+				toast.success(t('auth.login.success'))
 				navigate(ROUTES.INDEX)
 				console.log(userCredential)
 			})

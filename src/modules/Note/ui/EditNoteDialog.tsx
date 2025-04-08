@@ -142,7 +142,7 @@ export const EditNoteDialog: React.FC<
 
 			if (!title) {
 				if (contentList!.length > 0 || content !== '') {
-					toast.error(t('note.title.required'))
+					toast.error(t('note.titleRequired'))
 					setGlobalLoading(false)
 					return
 				} else {
@@ -152,7 +152,7 @@ export const EditNoteDialog: React.FC<
 			}
 
 			if (!content && contentList?.length === 0) {
-				toast.error(t('note.content.required'))
+				toast.error(t('note.contentRequired'))
 				setGlobalLoading(false)
 				return
 			}

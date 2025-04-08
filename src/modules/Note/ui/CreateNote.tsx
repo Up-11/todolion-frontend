@@ -77,7 +77,7 @@ export const CreateNote: React.FC = () => {
 				setState({ ...state, isLoading: false, isCreating: false })
 				setGlobalLoading(false)
 			} else {
-				toast.error(t('note.title.required'))
+				toast.error(t('note.titleRequired'))
 				setState({ ...state, isLoading: false })
 				setGlobalLoading(false)
 			}
