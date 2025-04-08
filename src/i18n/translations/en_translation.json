@@ -2,6 +2,7 @@
 	"page": {
 		"pinned": "Pinned Notes",
 		"noOtherNotes": "No other notes yet",
+		"noPinnedNotes": "No pinned notes yet",
 		"noNotes": "No notes found",
 		"others": "Others"
 	},

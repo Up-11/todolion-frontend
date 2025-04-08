@@ -2,6 +2,7 @@ export interface TranslationTypes {
 	page: {
 		pinned: string
 		noOtherNotes: string
+		noPinnedNotes: string
 		noNotes: string
 		others: string
 	}
