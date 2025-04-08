@@ -18,7 +18,7 @@
 		"cancel": "Cancel",
 		"createList": "Create List",
 		"createText": "Create Text",
-		"createListItem": "Add item",
+		"addListItem": "Add item",
 		"listItemPlaceholder": "Item text...",
 		"delete": "Delete",
 		"copy": "Copy",
