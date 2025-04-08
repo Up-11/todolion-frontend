@@ -385,7 +385,7 @@ export const EditNoteDialog: React.FC<
 						</div>
 					</div>
 					<div className='flex gap-1 items-center'>
-						<Button>{t('note.back')}</Button>
+						<Button onClick={() => setIsOpen(false)}>{t('note.back')}</Button>
 						{isContent === 'list' && (
 							<Button onClick={() => addContentListItem()}>
 								{t('note.addListItem')}
