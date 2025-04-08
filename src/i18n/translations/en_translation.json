@@ -28,7 +28,8 @@
 		"updated": "Note updated",
 		"removed": "Note removed",
 		"created": "Note created",
-		"completed": "Completed"
+		"completed": "Completed",
+		"back": "Back"
 	},
 	"auth": {
 		"logout": {
