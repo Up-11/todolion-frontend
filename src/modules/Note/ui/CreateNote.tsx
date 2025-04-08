@@ -301,7 +301,7 @@ export const CreateNote: React.FC = () => {
 								</Button>
 								{isContent === 'list' && (
 									<Button onClick={addContentListItem}>
-										{t('note.createListItem')}
+										{t('note.addListItem')}
 									</Button>
 								)}
 							</div>
