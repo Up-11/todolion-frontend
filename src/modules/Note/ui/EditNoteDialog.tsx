@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { doc, getFirestore, updateDoc } from 'firebase/firestore'
 import { t } from 'i18next'
 import {
+	Archive,
 	CheckSquare2Icon,
 	ChevronRight,
 	MoreVertical,
 	Pin,
-	Tag,
 	Text
 } from 'lucide-react'
 import React, { PropsWithChildren, useState } from 'react'
@@ -58,7 +58,7 @@ export const EditNoteDialog: React.FC<
 	const { user } = useAuth()
 	const db = getFirestore()
 	const { setGlobalLoading } = useGlobalLoading()
-	const { deleteNote, getNotes } = useNotes()
+	const { deleteNote, getNotes, createNote } = useNotes()
 
 	const onDelete = () => {
 		deleteNote(note.id)
@@ -67,8 +67,7 @@ export const EditNoteDialog: React.FC<
 	}
 
 	const [state, setState] = useState({
-		isLoading: false,
-		isPinned: false
+		isPinned: note.isPinned
 	})
 
 	const [isContent, setIsContent] = useState<'content' | 'list'>(
@@ -115,61 +114,71 @@ export const EditNoteDialog: React.FC<
 		)
 	}
 
-	const onOpenChange = (newState: boolean) => {
+	const onOpenChange = async (newState: boolean) => {
 		if (newState === false) {
-			onClickOutside()
+			await onClickOutside()
+			setIsOpen(newState)
 		}
 		setIsOpen(newState)
 	}
-
 	const onClickOutside = async () => {
-		if (state.isLoading) return
 		if (!user?.uid) return
-		if (contentList! === note.contentList || content === note.content) return
+
+		const title = form.getValues().title
+		const content = form.getValues().content
+		const contentList = form.getValues().contentList
+
+		if (
+			JSON.stringify(contentList) === JSON.stringify(note.contentList) &&
+			content === note.content &&
+			state.isPinned === note.isPinned &&
+			title === note.title
+		) {
+			return
+		}
 
 		try {
-			setState({ ...state, isLoading: true })
 			setGlobalLoading(true)
 
-			const title = form.getValues().title
-			const content = form.getValues().content
-			const contentList = form.getValues().contentList
-
 			if (!title) {
-				if (contentList!.length > 0 || content === '') {
-					setState({ ...state, isLoading: false })
-					setGlobalLoading(false)
-				} else {
+				if (contentList!.length > 0 || content !== '') {
 					toast.error(t('note.title.required'))
-					setState({ ...state, isLoading: false })
 					setGlobalLoading(false)
+					return
+				} else {
+					setGlobalLoading(false)
+					return
 				}
+			}
+
+			if (!content && contentList?.length === 0) {
+				toast.error(t('note.content.required'))
+				setGlobalLoading(false)
 				return
 			}
 
-			const payload: INote = {
+			const payload: Partial<INote> = {
 				title,
 				content,
 				contentList,
 				isPinned: state.isPinned,
-				id: note.id,
-				updatedAt: new Date().toLocaleDateString()
+				updatedAt: new Date().toLocaleTimeString()
 			}
 
-			await updateDoc(doc(db, `users/${user.uid}/notes/${payload.id}`), payload)
-			toast.success(t('note.created'))
-			form.reset()
-			setState({ ...state, isLoading: false })
-			setGlobalLoading(false)
+			const docRef = doc(db, `users/${user.uid}/notes/${note.id}`)
 
+			await updateDoc(docRef, payload)
+			toast.success(t('note.updated'))
+
+			form.reset()
+			getNotes()
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			toast.error(err.message)
-			setState({ ...state, isLoading: false })
+		} finally {
 			setGlobalLoading(false)
 		}
 	}
-
 	return (
 		<Dialog open={isOpen} onOpenChange={onOpenChange}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
@@ -184,6 +193,7 @@ export const EditNoteDialog: React.FC<
 									<FormItem>
 										<FormControl>
 											<Input
+												autoFocus={false}
 												className='w-full !text-2xl !bg-transparent !border-none'
 												placeholder={t('note.title')}
 												{...field}
@@ -320,12 +330,6 @@ export const EditNoteDialog: React.FC<
 							</AppTooltip>
 						)}
 						<div className='flex items-center gap-1'>
-							<AppTooltip text={t('note.addTag')}>
-								<Tag
-									size={20}
-									className='hover:text-cyan-500 transition-colors cursor-pointer'
-								/>
-							</AppTooltip>
 							<Pin
 								onClick={() =>
 									setState({ ...state, isPinned: !state.isPinned })
@@ -354,14 +358,27 @@ export const EditNoteDialog: React.FC<
 									>
 										{t('note.delete')}
 									</Button>
-									<Button className='w-full' variant={'outline'}>
-										{t('tag.add')}
-									</Button>
-									<Button className='w-full' variant={'outline'}>
+
+									<Button
+										onClick={() =>
+											createNote(
+												{
+													...note,
+													title: form.getValues().title,
+													content: form.getValues().content,
+													contentList: form.getValues().contentList,
+													isPinned: state.isPinned,
+													updatedAt: new Date().toLocaleTimeString()
+												},
+												() => {
+													onOpenChange(false)
+												}
+											)
+										}
+										className='w-full'
+										variant={'outline'}
+									>
 										{t('note.copy')}
-									</Button>
-									<Button className='w-full' variant={'outline'}>
-										{t('note.archive')}
 									</Button>
 								</PopoverContent>
 							</Popover>
@@ -369,9 +386,11 @@ export const EditNoteDialog: React.FC<
 					</div>
 					<div className='flex gap-1 items-center'>
 						<Button>{t('note.back')}</Button>
-						<Button onClick={() => addContentListItem()}>
-							{t('note.addListItem')}
-						</Button>
+						{isContent === 'list' && (
+							<Button onClick={() => addContentListItem()}>
+								{t('note.addListItem')}
+							</Button>
+						)}
 					</div>
 				</div>
 			</DialogContent>

@@ -18,12 +18,17 @@ import { EditNoteDialog } from './EditNoteDialog'
 export const Note: React.FC<{ note: INote }> = ({ note }) => {
 	const { t } = useTranslation()
 	const [isOpen, setIsOpen] = useState(false)
-	const { deleteNote, getNotes } = useNotes()
+	const { deleteNote, getNotes, togglePinned, createNote } = useNotes()
 
 	const onDelete = () => {
 		deleteNote(note.id)
 		getNotes()
 	}
+
+	const isContentListEmpty =
+		note!.contentList.length === 1 &&
+		note.contentList[0].title === '' &&
+		note.contentList[0].isDone === false
 	return (
 		<div
 			className={cn(
@@ -42,7 +47,7 @@ export const Note: React.FC<{ note: INote }> = ({ note }) => {
 							{note.content}
 						</p>
 					)}
-					{note.contentList && (
+					{!isContentListEmpty && (
 						<div className='flex flex-col z-20 relative gap-4'>
 							{note.contentList
 								.sort(a => (a.isDone === true ? 1 : -1))
@@ -67,6 +72,7 @@ export const Note: React.FC<{ note: INote }> = ({ note }) => {
 				</div>
 			</EditNoteDialog>
 			<Pin
+				onClick={() => togglePinned(note.id)}
 				size={18}
 				className={cn(
 					'hover:text-cyan-500 group-hover:opacity-100  opacity-0  transition-all cursor-pointer absolute top-3 right-3',
@@ -84,14 +90,18 @@ export const Note: React.FC<{ note: INote }> = ({ note }) => {
 					<Button onClick={onDelete} className='w-full' variant={'outline'}>
 						{t('note.delete')}
 					</Button>
-					<Button className='w-full' variant={'outline'}>
-						{t('tag.add')}
-					</Button>
-					<Button className='w-full' variant={'outline'}>
+
+					<Button
+						onClick={() =>
+							createNote({
+								...note,
+								updatedAt: new Date().toLocaleTimeString()
+							})
+						}
+						className='w-full'
+						variant={'outline'}
+					>
 						{t('note.copy')}
-					</Button>
-					<Button className='w-full' variant={'outline'}>
-						{t('note.archive')}
 					</Button>
 				</PopoverContent>
 			</Popover>

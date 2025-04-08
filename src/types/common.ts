@@ -16,6 +16,6 @@ export interface INote {
 	title: string
 	isPinned: boolean
 	updatedAt: string
-	content?: string
-	contentList?: { title: string; isDone: boolean }[]
+	content: string
+	contentList: { title: string; isDone: boolean }[]
 }

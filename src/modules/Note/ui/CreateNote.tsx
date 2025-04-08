@@ -1,4 +1,3 @@
-import { doc, getFirestore, setDoc } from 'firebase/firestore'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
 	CheckSquare2,
@@ -6,7 +5,6 @@ import {
 	ChevronRight,
 	Pen,
 	Pin,
-	Tag,
 	Text
 } from 'lucide-react'
 import React, { useState } from 'react'
@@ -36,9 +34,8 @@ import { ContentListItem } from './ContentListItem'
 export const CreateNote: React.FC = () => {
 	const { t } = useTranslation()
 	const { user } = useAuth()
-	const db = getFirestore()
 	const { setGlobalLoading } = useGlobalLoading()
-	const { getNotes } = useNotes()
+	const { createNote } = useNotes()
 
 	const [state, setState] = useState({
 		isCreating: false,
@@ -66,6 +63,15 @@ export const CreateNote: React.FC = () => {
 		const content = form.getValues().content
 		const contentList = form.getValues().contentList
 
+		const payload: INote = {
+			title,
+			content,
+			contentList,
+			isPinned: state.isPinned,
+			id: uuidv4(),
+			updatedAt: new Date().toLocaleTimeString()
+		}
+
 		if (!title) {
 			if (contentList!.length > 0 || content === '') {
 				setState({ ...state, isLoading: false, isCreating: false })
@@ -78,38 +84,20 @@ export const CreateNote: React.FC = () => {
 			return
 		}
 
-		try {
-			setState({ ...state, isLoading: true })
-			setGlobalLoading(true)
-
-			const payload: INote = {
-				title,
-				content,
-				contentList,
-				isPinned: state.isPinned,
-				id: uuidv4(),
-				updatedAt: new Date().toLocaleTimeString()
-			}
-
-			await setDoc(doc(db, `users/${user.uid}/notes/${payload.id}`), payload)
-			toast.success(t('note.created'))
+		createNote(payload, () => {
 			form.reset()
 			setState({ ...state, isCreating: false, isLoading: false })
-			setGlobalLoading(false)
-
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (err: any) {
-			toast.error(err.message)
-			setState({ ...state, isLoading: false })
-			setGlobalLoading(false)
-		} finally {
-			getNotes()
-		}
+		})
 	}
 	const startWithList = () => {
 		setIsContent('list')
 		setState({ ...state, isCreating: true })
 	}
+
+	const isContentListEmpty =
+		contentList.length === 1 &&
+		contentList[0].title === '' &&
+		contentList[0].isDone === false
 	return (
 		<div>
 			{state.isCreating && (
@@ -304,12 +292,6 @@ export const CreateNote: React.FC = () => {
 										/>
 									</AppTooltip>
 								)}{' '}
-								<AppTooltip text={t('note.addTag')}>
-									<Tag
-										size={20}
-										className='hover:text-cyan-500 transition-colors cursor-pointer'
-									/>
-								</AppTooltip>
 							</div>
 							<div className='flex gap-1 items-center'>
 								<Button
@@ -317,9 +299,11 @@ export const CreateNote: React.FC = () => {
 								>
 									{t('note.cancel')}
 								</Button>
-								<Button onClick={addContentListItem}>
-									{t('note.createListItem')}
-								</Button>
+								{isContent === 'list' && (
+									<Button onClick={addContentListItem}>
+										{t('note.createListItem')}
+									</Button>
+								)}
 							</div>
 						</div>
 					</motion.div>

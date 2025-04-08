@@ -13,13 +13,8 @@ export const RootLayout: React.FC = () => {
 	return (
 		<div>
 			<Header />
-			<Sidebar />
-			<motion.div
-				initial={{ marginLeft: '100px' }}
-				animate={{ marginLeft: isExpanded ? '330px' : '100px' }}
-				transition={{ duration: 0.2 }}
-				className={cn('mt-23 mx-4')}
-			>
+			{/* <Sidebar /> */}
+			<motion.div className={cn('mt-23 mx-4')}>
 				<Outlet />
 			</motion.div>
 		</div>

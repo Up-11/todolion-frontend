@@ -1,14 +1,15 @@
 'use client'
 
+import { Languages } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+
+import { Button } from '../components/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from '../components/dropdown-menu'
-import { Button } from '../components/button'
-import { Languages } from 'lucide-react'
 
 export default function LanguageSwitcher() {
 	const { i18n, t } = useTranslation()

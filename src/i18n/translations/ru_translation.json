@@ -1,8 +1,61 @@
 {
 	"page": {
-		"hello": "Привет, {{name}}!",
-		"changeLanguage": "Переключить язык на английский",
-		"dashboardTitle": "Личный кабинет",
-		"profile": "Мой профиль"
+		"pinned": "Закрепленные заметки",
+		"noOtherNotes": "Нет других заметок",
+		"noNotes": "Заметок не найдено",
+		"others": "Остальные"
+	},
+	"profile": {
+		"button": "Профиль",
+		"language": "Язык",
+		"theme": "Тема",
+		"logout": "Выйти"
+	},
+	"note": {
+		"creating": "Создание заметки...",
+		"title": "Название",
+		"desc": "Описание",
+		"cancel": "Отмена",
+		"createList": "Создать список",
+		"createText": "Создать текст",
+		"createListItem": "Добавить пункт",
+		"listItemPlaceholder": "Текст пункта...",
+		"delete": "Удалить",
+		"copy": "Скопировать",
+		"updatedAt": "Обновлено"
+	},
+	"auth": {
+		"email": {
+			"label": "Email",
+			"desc": "Ваш email адрес"
+		},
+		"password": {
+			"label": "Пароль",
+			"desc": "Ваш пароль"
+		},
+		"confirmPassword": {
+			"label": "Подтверждение пароля",
+			"desc": "Подтвердите ваш пароль"
+		},
+		"login": {
+			"title": "Вход",
+			"btn": "Войти",
+			"q": "Нет аккаунта?",
+			"link": "Зарегистрироваться"
+		},
+		"register": {
+			"title": "Регистрация",
+			"btn": "Зарегистрироваться",
+			"q": "Уже есть аккаунт?",
+			"link": "Войти"
+		}
+	},
+	"theme": {
+		"light": "Светлая",
+		"dark": "Темная",
+		"system": "Системная"
+	},
+	"header": {
+		"refresh": "Обновить"
 	}
 }

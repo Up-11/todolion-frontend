@@ -1,13 +1,15 @@
 import { Moon, Sun } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+
+import { Button } from '../components/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from '../components/dropdown-menu'
-import { Button } from '../components/button'
 import { useTheme } from '../providers/ThemeProvider'
-import { useTranslation } from 'react-i18next'
+
 export function ThemeSwitcher() {
 	const { setTheme } = useTheme()
 	const { t } = useTranslation()
@@ -23,13 +25,13 @@ export function ThemeSwitcher() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
 				<DropdownMenuItem onClick={() => setTheme('light')}>
-					Light
+					{t('theme.light')}
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => setTheme('dark')}>
-					Dark
+					{t('theme.dark')}
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => setTheme('system')}>
-					System
+					{t('theme.system')}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

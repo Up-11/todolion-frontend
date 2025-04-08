@@ -1,10 +1,4 @@
-import {
-	EmailAuthCredential,
-	getAuth,
-	onAuthStateChanged,
-	signOut,
-	User
-} from 'firebase/auth'
+import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth'
 import { createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
@@ -18,8 +12,6 @@ type AuthProviderState = {
 	isAuthenticatedLoading: boolean
 	logout: () => void
 	error: string | null
-	credentials: EmailAuthCredential | null
-	setCredentials: (credentials: EmailAuthCredential) => void
 }
 
 const initialState: AuthProviderState = {
@@ -27,9 +19,7 @@ const initialState: AuthProviderState = {
 	setUser: () => null,
 	isAuthenticatedLoading: true,
 	logout: () => null,
-	error: null,
-	credentials: null,
-	setCredentials: () => null
+	error: null
 }
 
 export const AuthProviderContext =
@@ -41,12 +31,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	const [state, setState] = useState<AuthProviderState>({
 		...initialState,
-		user: JSON.parse(localStorage.getItem('user') || 'null') as User | null,
-		credentials: JSON.parse(localStorage.getItem('credentials') || 'null')
+		user: JSON.parse(localStorage.getItem('user') || 'null') as User | null
 	})
 
 	useEffect(() => {
-		localStorage.getItem('credentials')
 		const unsubscribe = onAuthStateChanged(auth, user => {
 			if (user) {
 				localStorage.setItem('user', JSON.stringify(user))
@@ -88,20 +76,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		localStorage.setItem('user', JSON.stringify(user))
 		setState(prev => ({ ...prev, user, error: null }))
 	}
-
-	const setCredentials = (credentials: EmailAuthCredential) => {
-		localStorage.setItem('credentials', JSON.stringify(credentials))
-		setState(prev => ({ ...prev, credentials }))
-	}
-
 	if (state.isAuthenticatedLoading) {
 		return <FullscreenLoader />
 	}
 
 	return (
-		<AuthProviderContext.Provider
-			value={{ ...state, setUser, logout, setCredentials }}
-		>
+		<AuthProviderContext.Provider value={{ ...state, setUser, logout }}>
 			{children}
 		</AuthProviderContext.Provider>
 	)

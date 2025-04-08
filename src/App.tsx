@@ -46,7 +46,6 @@ function App() {
 					</AuthProvider>
 					<Toaster position='bottom-center' richColors />
 				</TooltipProvider>
-				<PagesListTest />
 			</I18nextProvider>
 		</ThemeProvider>
 	)
