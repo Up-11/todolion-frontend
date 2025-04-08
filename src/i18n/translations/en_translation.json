@@ -27,7 +27,8 @@
 		"contentRequired": "Content is required",
 		"updated": "Note updated",
 		"removed": "Note removed",
-		"created": "Note created"
+		"created": "Note created",
+		"completed": "Completed"
 	},
 	"auth": {
 		"logout": {

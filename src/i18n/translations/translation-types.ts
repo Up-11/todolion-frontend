@@ -28,6 +28,7 @@ export interface TranslationTypes {
 		updated: string
 		removed: string
 		created: string
+		completed: string
 	}
 	auth: {
 		logout: {
