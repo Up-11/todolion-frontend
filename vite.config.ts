@@ -12,6 +12,6 @@ export default defineConfig({
 		}
 	},
 	preview: {
-		allowedHosts: ['todolion-frontend-5q9vma-db3c6e-195-133-194-39.traefik.me']
+		allowedHosts: ['todolion-frontend-xan2yg-ac4212-185-177-219-168.traefik.me']
 	}
 })
